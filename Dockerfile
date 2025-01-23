@@ -1,5 +1,6 @@
 # ベースイメージとして Node.js を使用
-FROM node:18-alpine
+# FROM node:18-alpine
+FROM node:18
 
 # 作業ディレクトリを設定
 WORKDIR /app
@@ -19,4 +20,5 @@ RUN npm run build
 EXPOSE 5000
 
 # アプリを起動
-CMD ["npm", "start"]
+# CMD ["npm", "start"]
+CMD ["node", "server.js"]
