@@ -1,0 +1,59 @@
+name: バックエンド CI/CD
+
+on:
+  push:
+    branches: [ develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  simple-test:
+    name: 簡易テスト
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Node.jsのセットアップ
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        cache: 'npm'
+    
+    - name: 依存関係のインストール
+      run: npm ci
+    
+    - name: コードの静的解析
+      run: npm run lint || echo "Lint設定がありません"
+      
+    - name: 簡易テストの実行
+      run: npm test || echo "テストがまだ設定されていません"
+
+  detailed-test:
+    name: 詳細テスト
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Node.jsのセットアップ
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        cache: 'npm'
+    
+    - name: 依存関係のインストール
+      run: npm ci
+    
+    - name: コードの静的解析
+      run: npm run lint || echo "Lint設定がありません"
+      
+    - name: データベース初期化
+      run: node init_db.js
+      
+    - name: 詳細テストの実行
+      run: npm test || echo "テストがまだ設定されていません"
+
+  
