@@ -49,9 +49,9 @@ jobs:
     
     - name: コードの静的解析
       run: npm run lint || echo "Lint設定がありません"
-      
+
     - name: データベース初期化
-      run: node init_db.js
+      run: npm run db:migrate && npm run db:seed
       
     - name: 詳細テストの実行
       run: npm test || echo "テストがまだ設定されていません"
