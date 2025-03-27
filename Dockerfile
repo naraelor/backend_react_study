@@ -20,5 +20,4 @@ RUN npm run build
 EXPOSE 5000
 
 # アプリを起動
-# CMD ["npm", "start"]
-CMD ["node", "server.js"]
+CMD ["npm", "start"]
